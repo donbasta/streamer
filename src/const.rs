@@ -12,18 +12,19 @@ const TYPE_FINACK: usize = 3;
 const TYPE_MDATA: usize = 4;
 const TYPE_MACK: usize = 5;
 
-const AVAILABLE_TYPES: Vec<usize> = if FILE_METADATA {
-    [
-        TYPE_DATA,
-        TYPE_ACK,
-        TYPE_FIN,
-        TYPE_FINACK,
-        TYPE_MDATA,
-        TYPE_MACK,
-    ]
-} else {
-    [TYPE_DATA, TYPE_ACK, TYPE_FIN, TYPE_FINACK]
-};
+// const AVAILABLE_TYPES: Vec<usize> = if FILE_METADATA {
+//     [
+//         TYPE_DATA,
+//         TYPE_ACK,
+//         TYPE_FIN,
+//         TYPE_FINACK,
+//         TYPE_MDATA,
+//         TYPE_MACK,
+//     ]
+//     .to_vec()
+// } else {
+//     [TYPE_DATA, TYPE_ACK, TYPE_FIN, TYPE_FINACK].to_vec()
+// };
 
 const MAX_SENDER_THREADS: usize = if MULTITHREADED { 5 } else { 1 };
 const RESEND_TIMER: usize = 2;
