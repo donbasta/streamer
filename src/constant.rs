@@ -1,14 +1,14 @@
-const FILE_METADATA: bool = false;
-const MULTITHREADED: bool = true;
+pub const FILE_METADATA: bool = false;
+pub const MULTITHREADED: bool = true;
 
-const MAX_LENGTH: usize = 32767;
-const MAX_SEQUENCE: usize = 65535;
-const MAX_PACKET_LENGTH: usize = 1 + 2 + 2 + 2 + 32767;
+pub const MAX_LENGTH: usize = 32767;
+pub const MAX_SEQUENCE: usize = 65535;
+pub const MAX_PACKET_LENGTH: usize = 1 + 2 + 2 + 2 + 32767;
 
 const TYPE_DATA: usize = 0;
-const TYPE_ACK: usize = 1;
+pub const TYPE_ACK: usize = 1;
 const TYPE_FIN: usize = 2;
-const TYPE_FINACK: usize = 3;
+pub const TYPE_FINACK: usize = 3;
 const TYPE_MDATA: usize = 4;
 const TYPE_MACK: usize = 5;
 
