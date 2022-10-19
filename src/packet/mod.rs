@@ -1,8 +1,11 @@
+pub mod error;
 pub mod test;
 
 use bytes::{BufMut, BytesMut};
 
-use crate::{constant::*, errors::PacketError};
+use crate::constant::*;
+
+use self::error::PacketError;
 
 pub struct Packet {
     p_type: usize,
