@@ -10,6 +10,13 @@ pub struct Packet {
 }
 
 impl Packet {
+    /// Create a new Packet.
+    ///
+    /// `p_type` is the type of the packet as described in the constants
+    ///
+    /// `p_sequence` is the position of the packets with respect to the entire file being sent
+    ///
+    /// `p_data` is the blob of the data
     pub fn new(p_type: usize, p_sequence: usize, p_data: &[u8]) -> Packet {
         assert!(AVAILABLE_TYPES.contains(&p_type));
         assert!(p_data.len() <= MAX_LENGTH);
@@ -29,18 +36,22 @@ impl Packet {
         }
     }
 
+    /// Get the type of a packet
     pub fn get_type(&self) -> usize {
         self.p_type
     }
 
+    /// Get the sequence number of a packet
     pub fn get_sequence(&self) -> usize {
         self.p_sequence
     }
 
+    /// Get the data of the packet in BytesMut
     pub fn get_data(&self) -> &BytesMut {
         &self.p_data
     }
 
+    /// Generate the head of a packet which contains the type, length of data, and sequence number of the packet
     pub fn generate_head(&self) -> BytesMut {
         let mut head = BytesMut::new();
         head.put_u8(self.p_type.try_into().unwrap());
@@ -50,6 +61,9 @@ impl Packet {
         head
     }
 
+    /// Get the checksum of a packet
+    ///
+    /// `head` is the head of the packet
     pub fn generate_checksum(&self, head: &mut BytesMut) -> usize {
         let mut check_data = BytesMut::new();
         check_data.put(head);
@@ -76,6 +90,7 @@ impl Packet {
         checksum
     }
 
+    /// Convert a packet to bytes (BytesMut)
     pub fn to_bytes(&self) -> BytesMut {
         let mut head = self.generate_head();
         let checksum = self.generate_checksum(&mut head);
@@ -88,6 +103,9 @@ impl Packet {
         packet
     }
 
+    /// Convert a raw bytes into a packet struct by destructuring the bytes
+    ///
+    /// `raw` is the raw bytes
     pub fn to_packet(raw: BytesMut) -> Result<Packet, PacketError> {
         assert!(raw.len() >= 7);
 
