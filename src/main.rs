@@ -1,56 +1,10 @@
 use std::{env, error::Error, process};
 
-#[derive(Debug)]
-struct ClientConfig {
-    server_address: String,
-}
-#[derive(Debug)]
-struct ServerConfig {
-    port: String,
-    fpath: String,
-}
-
-enum Config {
-    Server(ServerConfig),
-    Client(ClientConfig),
-}
-
-impl Config {
-    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
-        args.next();
-
-        let user_type = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Not enough arguments"),
-        };
-
-        let config: Config;
-
-        match user_type.as_str() {
-            "client" => {
-                let server_address = match args.next() {
-                    Some(arg) => arg,
-                    None => return Err("Not enough arguments"),
-                };
-                config = Config::Client(ClientConfig { server_address });
-            }
-            "server" => {
-                let port = match args.next() {
-                    Some(arg) => arg,
-                    None => return Err("Not enough arguments"),
-                };
-                let fpath = match args.next() {
-                    Some(arg) => arg,
-                    None => return Err("Not enough arguments"),
-                };
-                config = Config::Server(ServerConfig { port, fpath });
-            }
-            _ => return Err("Argument not valid"),
-        }
-
-        Ok(config)
-    }
-}
+use lib::{
+    client::{config::ClientConfig, item::Client},
+    config::Config,
+    server::{config::ServerConfig, item::Server},
+};
 
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
     match config {
@@ -61,11 +15,13 @@ fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 fn run_server(config: ServerConfig) -> Result<(), Box<dyn Error>> {
     println!("starting server with config {:#?}", config);
+    let server = Server::from(config);
     Ok(())
 }
 
 fn run_client(config: ClientConfig) -> Result<(), Box<dyn Error>> {
     println!("starting client with config {:#?}", config);
+    let client = Client::from(config);
     Ok(())
 }
 
