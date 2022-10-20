@@ -1,4 +1,4 @@
-use crate::wav_handler::WavHandler;
+use crate::media::wav::item::WavHandler;
 
 pub struct ChunkSenderWorker<'a> {
     server_address: String,
