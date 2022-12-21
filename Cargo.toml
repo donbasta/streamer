@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 bytes = "1"
 hound = "3.5.0"
+libmath = "0.2.1"
 
 [[bin]]
 name = "streamer"
